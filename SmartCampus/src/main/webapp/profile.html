@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile — SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="student">
+  <div class="navbar">
+    <a class="brand" href="student-dashboard.html">SmartCampus</a>
+    <nav>
+      <a href="student-dashboard.html">Dashboard</a>
+      <a href="my-complaints.html">My Complaints</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </div>
+
+  <div class="container" style="max-width:500px;">
+    <div class="card">
+      <h2>My Profile</h2>
+      <div id="profile-msg" class="msg" style="display:none;"></div>
+      <form id="profile-form">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" disabled>
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <input type="text" name="department">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" name="phone">
+        </div>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

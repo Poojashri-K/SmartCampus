@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Track Complaint — SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="student">
+  <div class="navbar">
+    <a class="brand" href="student-dashboard.html">SmartCampus</a>
+    <nav>
+      <a href="student-dashboard.html">Dashboard</a>
+      <a href="my-complaints.html">My Complaints</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </div>
+
+  <div class="container" style="max-width:500px;">
+    <div class="card">
+      <h2>Track a Complaint</h2>
+      <form id="track-form">
+        <div class="form-group">
+          <label>Complaint ID</label>
+          <input type="number" name="id" required placeholder="e.g. 12">
+        </div>
+        <button type="submit">Track</button>
+      </form>
+    </div>
+    <div id="track-result"></div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
