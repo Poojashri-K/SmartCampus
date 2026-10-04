@@ -13,6 +13,8 @@ import jakarta.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -38,6 +40,9 @@ public class ComplaintServlet extends HttpServlet {
         String category = req.getParameter("category");
         String description = req.getParameter("description");
         String location = req.getParameter("location");
+        BigDecimal latitude = parseNullableDecimal(req.getParameter("latitude"), new BigDecimal("-90"), new BigDecimal("90"), 7);
+        BigDecimal longitude = parseNullableDecimal(req.getParameter("longitude"), new BigDecimal("-180"), new BigDecimal("180"), 7);
+        BigDecimal locationAccuracy = parseNullableDecimal(req.getParameter("locationAccuracy"), BigDecimal.ZERO, new BigDecimal("99999999.99"), 2);
         boolean force = "true".equals(req.getParameter("force"));
 
         if (category == null || description == null || category.isEmpty() || description.isEmpty()) {
@@ -69,6 +74,9 @@ public class ComplaintServlet extends HttpServlet {
         c.setCategory(category);
         c.setDescription(description);
         c.setLocation(location);
+        c.setLatitude(latitude);
+        c.setLongitude(longitude);
+        c.setLocationAccuracy(locationAccuracy);
         c.setImagePath(imagePath);
         c.setPriority(PriorityCalculator.calculatePriority(category, description));
 
@@ -78,6 +86,21 @@ public class ComplaintServlet extends HttpServlet {
         } else {
             resp.setStatus(500);
             resp.getWriter().write("{\"success\":false,\"message\":\"Could not submit complaint\"}");
+        }
+    }
+
+    private BigDecimal parseNullableDecimal(String value, BigDecimal min, BigDecimal max, int scale) {
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            BigDecimal parsed = new BigDecimal(value.trim());
+            if (parsed.compareTo(min) < 0 || parsed.compareTo(max) > 0) {
+                return null;
+            }
+            return parsed.setScale(scale, RoundingMode.HALF_UP);
+        } catch (NumberFormatException | ArithmeticException e) {
+            return null;
         }
     }
 

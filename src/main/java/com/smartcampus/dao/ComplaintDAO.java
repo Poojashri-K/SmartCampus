@@ -10,7 +10,7 @@ import java.util.List;
 public class ComplaintDAO {
 
     public int addComplaint(Complaint c) {
-        String sql = "INSERT INTO complaints (user_id, category, description, location, image_path, status, priority) VALUES (?, ?, ?, ?, ?, 'Pending', ?)";
+        String sql = "INSERT INTO complaints (user_id, category, description, location, image_path, status, priority, latitude, longitude, location_accuracy) VALUES (?, ?, ?, ?, ?, 'Pending', ?, ?, ?, ?)";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, c.getUserId());
@@ -19,6 +19,9 @@ public class ComplaintDAO {
             ps.setString(4, c.getLocation());
             ps.setString(5, c.getImagePath());
             ps.setString(6, c.getPriority());
+            ps.setBigDecimal(7, c.getLatitude());
+            ps.setBigDecimal(8, c.getLongitude());
+            ps.setBigDecimal(9, c.getLocationAccuracy());
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -141,6 +144,9 @@ public class ComplaintDAO {
         c.setCategory(rs.getString("category"));
         c.setDescription(rs.getString("description"));
         c.setLocation(rs.getString("location"));
+        c.setLatitude(rs.getBigDecimal("latitude"));
+        c.setLongitude(rs.getBigDecimal("longitude"));
+        c.setLocationAccuracy(rs.getBigDecimal("location_accuracy"));
         c.setImagePath(rs.getString("image_path"));
         c.setStatus(rs.getString("status"));
         c.setPriority(rs.getString("priority"));

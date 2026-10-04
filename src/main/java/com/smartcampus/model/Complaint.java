@@ -1,5 +1,6 @@
 package com.smartcampus.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Complaint {
@@ -9,6 +10,9 @@ public class Complaint {
     private String category;
     private String description;
     private String location;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
+    private BigDecimal locationAccuracy;
     private String imagePath;
     private String status;
     private String priority;
@@ -35,6 +39,15 @@ public class Complaint {
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
 
+    public BigDecimal getLatitude() { return latitude; }
+    public void setLatitude(BigDecimal latitude) { this.latitude = latitude; }
+
+    public BigDecimal getLongitude() { return longitude; }
+    public void setLongitude(BigDecimal longitude) { this.longitude = longitude; }
+
+    public BigDecimal getLocationAccuracy() { return locationAccuracy; }
+    public void setLocationAccuracy(BigDecimal locationAccuracy) { this.locationAccuracy = locationAccuracy; }
+
     public String getImagePath() { return imagePath; }
     public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 
@@ -58,6 +71,9 @@ public class Complaint {
             + "\"category\":\"" + esc(category) + "\","
             + "\"description\":\"" + esc(description) + "\","
             + "\"location\":\"" + esc(location) + "\","
+            + "\"latitude\":" + jsonNumber(latitude) + ","
+            + "\"longitude\":" + jsonNumber(longitude) + ","
+            + "\"locationAccuracy\":" + jsonNumber(locationAccuracy) + ","
             + "\"imagePath\":\"" + esc(imagePath) + "\","
             + "\"status\":\"" + esc(status) + "\","
             + "\"priority\":\"" + esc(priority) + "\","
@@ -68,5 +84,9 @@ public class Complaint {
 
     private String esc(String s) {
         return s == null ? "" : s.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+
+    private String jsonNumber(BigDecimal value) {
+        return value == null ? "null" : value.toPlainString();
     }
 }

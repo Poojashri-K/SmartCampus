@@ -132,7 +132,28 @@ function priorityBadge(priority) {
 
 function imageThumb(imagePath) {
   if (!imagePath) return "";
-  return `<a href="${imagePath}" target="_blank"><img class="complaint-thumb" src="${imagePath}" alt="complaint photo"></a>`;
+  return `<a href="${imagePath}" target="_blank" rel="noopener noreferrer"><img class="complaint-thumb" src="${imagePath}" alt="complaint photo"></a>`;
+}
+
+function gpsLocationMarkup(complaint) {
+  if (complaint.latitude == null || complaint.longitude == null) {
+    return `<span class="gps-not-provided">GPS location not provided</span>`;
+  }
+  const latitude = Number(complaint.latitude);
+  const longitude = Number(complaint.longitude);
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || Math.abs(latitude) > 90 || Math.abs(longitude) > 180) {
+    return `<span class="gps-not-provided">GPS location not provided</span>`;
+  }
+  const accuracy = complaint.locationAccuracy == null ? NaN : Number(complaint.locationAccuracy);
+  const accuracyText = Number.isFinite(accuracy) && accuracy >= 0
+    ? `Accuracy: ±${Math.round(accuracy)} m`
+    : "Accuracy: not available";
+  const latitudeText = latitude.toFixed(7);
+  const longitudeText = longitude.toFixed(7);
+  const encodedLatitude = encodeURIComponent(latitudeText);
+  const encodedLongitude = encodeURIComponent(longitudeText);
+  const mapUrl = `https://www.openstreetmap.org/?mlat=${encodedLatitude}&mlon=${encodedLongitude}#map=18/${encodedLatitude}/${encodedLongitude}`;
+  return `<div class="gps-location"><span class="gps-coordinates">${latitudeText}, ${longitudeText}</span><span class="gps-accuracy">${accuracyText}</span><a class="gps-map-link" href="${mapUrl}" target="_blank" rel="noopener noreferrer">View on Map</a></div>`;
 }
 
 // ---------- role guard: keeps students out of admin pages and vice versa ----------
@@ -279,10 +300,91 @@ function initComplaintPage() {
     });
   }
 
+  const locationButton = document.getElementById("use-current-location");
+  const locationStatus = document.getElementById("location-status");
+  const locationMapCard = document.getElementById("location-map-card");
+  const locationMap = document.getElementById("location-map");
+  const locationCoordinates = document.getElementById("location-coordinates");
+  const locationAccuracy = document.getElementById("location-accuracy");
+  const locationLabel = locationButton?.querySelector("span");
+  let detectedLocation = null;
+  function setLocationStatus(message, state) {
+    if (!locationStatus) return;
+    locationStatus.textContent = message;
+    locationStatus.className = `location-status is-${state}`;
+    locationStatus.hidden = false;
+  }
+  function clearLocationPreview() {
+    detectedLocation = null;
+    if (locationMap) locationMap.removeAttribute("src");
+    if (locationMapCard) locationMapCard.hidden = true;
+    if (locationStatus) locationStatus.hidden = true;
+    if (locationButton) { locationButton.disabled = false; locationButton.removeAttribute("aria-busy"); }
+    if (locationLabel) locationLabel.textContent = "Use My Current Location";
+  }
+  if (locationButton) locationButton.addEventListener("click", () => {
+    let geolocation;
+    try { geolocation = navigator.geolocation; } catch (_) { geolocation = null; }
+    if (!geolocation || typeof geolocation.getCurrentPosition !== "function") {
+      setLocationStatus("Location detection is not supported by this browser. Please enter your location manually.", "error");
+      return;
+    }
+    detectedLocation = null;
+    if (locationMap) locationMap.removeAttribute("src");
+    if (locationMapCard) locationMapCard.hidden = true;
+    locationButton.disabled = true;
+    locationButton.setAttribute("aria-busy", "true");
+    if (locationLabel) locationLabel.textContent = "Detecting location...";
+    setLocationStatus("Detecting location...", "loading");
+    const restoreButton = () => {
+      locationButton.disabled = false;
+      locationButton.removeAttribute("aria-busy");
+      if (locationLabel) locationLabel.textContent = "Use My Current Location";
+    };
+    try {
+      geolocation.getCurrentPosition(position => {
+        const { latitude, longitude, accuracy } = position.coords;
+        if (![latitude, longitude, accuracy].every(Number.isFinite) || Math.abs(latitude) > 90 || Math.abs(longitude) > 180 || accuracy < 0) {
+          restoreButton();
+          setLocationStatus("Unable to detect your location. Please enter it manually.", "error");
+          return;
+        }
+        detectedLocation = { latitude, longitude, locationAccuracy: accuracy };
+        const lat = latitude.toFixed(6), lon = longitude.toFixed(6), delta = 0.004;
+        const bounds = [Math.max(-180, longitude - delta), Math.max(-90, latitude - delta), Math.min(180, longitude + delta), Math.min(90, latitude + delta)].map(value => value.toFixed(6)).join(",");
+        const query = new URLSearchParams({ bbox: bounds, layer: "mapnik", marker: `${lat},${lon}` });
+        locationMap.src = `https://www.openstreetmap.org/export/embed.html?${query.toString()}`;
+        locationCoordinates.textContent = `${lat}, ${lon}`;
+        locationAccuracy.textContent = `Accuracy: ${Math.round(accuracy)} m`;
+        locationMapCard.hidden = false;
+        restoreButton();
+        setLocationStatus("\u2713 Current location detected", "success");
+      }, error => {
+        restoreButton();
+        const message = error.code === 1
+          ? "Location permission was denied. You can enter the location manually."
+          : error.code === 2
+            ? "Your location could not be determined. You can enter the location manually."
+            : error.code === 3
+              ? "Location detection timed out. Please try again or enter the location manually."
+              : "Unable to detect your location. Please enter it manually.";
+        setLocationStatus(message, "error");
+      }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+    } catch (_) {
+      restoreButton();
+      setLocationStatus("Unable to detect your location. Please enter it manually.", "error");
+    }
+  });
+
   async function submitComplaint(force) {
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Submitting…"; }
     const fd = new FormData(form);
     if (force) fd.set("force", "true");
+    if (detectedLocation) {
+      fd.append("latitude", String(detectedLocation.latitude));
+      fd.append("longitude", String(detectedLocation.longitude));
+      fd.append("locationAccuracy", String(detectedLocation.locationAccuracy));
+    }
 
     const res = await fetch("api/complaint", { method: "POST", body: fd });
     const data = await res.json().catch(() => ({}));
@@ -291,6 +393,7 @@ function initComplaintPage() {
       dupBox.style.display = "none";
       showMsg(msg, `Complaint #${data.id} submitted — priority: ${data.priority}`, "success");
       form.reset();
+      clearLocationPreview();
       if (uploadTitle) uploadTitle.textContent = "Upload a photo";
       document.getElementById("complaint-card")?.classList.add("submission-success");
       suggestPriority();
@@ -435,6 +538,7 @@ async function initComplaintDetailsPage() {
   container.innerHTML = `
     <header class="ticket-header"><div><span class="eyebrow">SUPPORT TICKET</span><h2>Complaint #${data.id}</h2><p>Filed by ${data.userName || "student"} on ${data.createdAt || "date unavailable"}</p></div><div class="ticket-state">${statusBadge(data.status)}</div></header>
     <div class="ticket-facts"><div><span>Category</span><strong>${data.category || "-"}</strong></div><div><span>Priority</span><strong>${priorityBadge(data.priority)}</strong></div><div><span>Current status</span><strong>${statusBadge(data.status)}</strong></div><div><span>Location</span><strong>${data.location || "Not provided"}</strong></div></div>
+    <section class="ticket-gps-location"><span class="eyebrow">GPS LOCATION</span>${gpsLocationMarkup(data)}</section>
     <section class="ticket-description"><span class="eyebrow">DESCRIPTION</span><p>${data.description || "No description provided."}</p></section>
     <section class="ticket-timeline"><span class="eyebrow">STATUS TIMELINE</span>${timelineMarkup(data.status)}</section>
     ${data.imagePath ? `<section class="ticket-attachment"><span class="eyebrow">ATTACHMENT</span>${imageThumb(data.imagePath)}</section>` : ""}
@@ -560,12 +664,12 @@ async function initAdminComplaintsPage() {
   async function load() {
     const { ok, data } = await api.get("api/admin/complaints");
     if (!ok) {
-      tbody.innerHTML = `<tr><td colspan="8" class="empty-state">${data.message || "Could not load complaints"}</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="empty-state">${data.message || "Could not load complaints"}</td></tr>`;
       return;
     }
     const complaints = data.complaints;
     if (!complaints.length) {
-      tbody.innerHTML = `<tr><td colspan="8" class="empty-state">No complaints yet.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="empty-state">No complaints yet.</td></tr>`;
       return;
     }
     tbody.innerHTML = complaints.map(c => `
@@ -574,6 +678,7 @@ async function initAdminComplaintsPage() {
         <td>${c.userName}</td>
         <td>${c.category}</td>
         <td>${imageThumb(c.imagePath)}</td>
+        <td>${gpsLocationMarkup(c)}</td>
         <td>${priorityBadge(c.priority)}</td>
         <td>${statusBadge(c.status)}</td>
         <td>

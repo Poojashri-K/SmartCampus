@@ -8,7 +8,7 @@ public class DBConnection {
 
     private static final String URL = "jdbc:mysql://localhost:3306/smartcampus?useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
-    private static final String PASSWORD = "your_password_here";
+    private static final String PASSWORD = "your_password_here"; // Replace with your actual MySQL password
 
     static {
         try {
