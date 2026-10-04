@@ -1,91 +1,159 @@
-# SmartCampus — Complaint Management System
+# SmartCampus – Campus Complaint Management System
 
-A Java Servlet web app for students to file, track, and get status updates on
-campus complaints (hostel, academic, infrastructure, Wi-Fi, mess, security),
-with an admin panel to triage and resolve them.
+SmartCampus is a web-based **Campus Complaint Management System** designed to make it easier for students to report campus-related issues and for administrators to manage, track, and resolve those complaints efficiently.
 
-## Stack
-- Java Servlets (Jakarta EE, `jakarta.servlet` — Tomcat 10+)
-- Plain HTML/CSS/JS front end (talks to servlets as a JSON API via `fetch`)
-- MySQL for storage (JDBC, no ORM)
+The system provides separate interfaces for **students and administrators**, with complaint tracking, priority management, profile management, and an admin complaint dashboard.
 
-## Project layout
-```
+---
+
+## 🚀 Features
+
+### 👨‍🎓 Student Features
+
+- Student registration and login
+- Secure session-based authentication
+- File a new campus complaint
+- Select complaint category
+- Enter complaint description
+- Upload supporting images/files
+- Capture current location using browser GPS
+- Manually enter/edit complaint location
+- View submitted complaints
+- Track complaint status
+- View detailed complaint information
+- View complaint priority
+- Manage student profile
+- Update profile information
+- Logout functionality
+
+### 👨‍💼 Admin Features
+
+- Admin login
+- Admin dashboard
+- View complaint statistics
+- View all submitted complaints
+- Review complaint details
+- Filter and manage complaints
+- Update complaint status
+- Track complaint priority
+- View recent complaint activity
+- Manage complaint queue
+
+---
+
+## 📍 Location Detection
+
+SmartCampus allows students to provide their location while submitting a complaint.
+
+The system uses the browser's **Geolocation API** when the student clicks:
+
+> 📍 Use My Current Location
+
+If permission is granted, the application retrieves the student's:
+
+- Latitude
+- Longitude
+
+Students can also manually enter or edit their location.
+
+If location permission is denied, the student can continue by entering the location manually.
+
+> **Note:** Location detection requires browser location permission and may require HTTPS in some production environments. `localhost` is generally allowed for development.
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+- Fetch API
+- Browser Geolocation API
+- Responsive Web Design
+- CSS Animations
+
+### Backend
+
+- Java
+- Java Servlets
+- Jakarta Servlet API
+- JDBC
+
+### Database
+
+- MySQL
+
+### Server
+
+- Apache Tomcat 10+
+
+### Development Tools
+
+- Visual Studio Code / IntelliJ IDEA
+- Git
+- GitHub
+- MySQL
+- Apache Tomcat
+
+---
+
+## 🏗️ Project Structure
+
+```text
 SmartCampus/
-├── src/main/java/com/smartcampus/
-│   ├── servlet/    → HTTP endpoints (login, complaint CRUD, admin, profile)
-│   ├── dao/        → UserDAO, ComplaintDAO (JDBC queries)
-│   ├── model/      → User, Complaint POJOs (with toJson())
-│   ├── util/       → DBConnection, PriorityCalculator
-│   └── filter/     → AuthenticationFilter (session + role check on /api/*)
-├── src/main/webapp/
-│   ├── *.html      → student & admin pages
-│   ├── css/style.css
-│   ├── js/script.js → fetches /api/* and renders each page
-│   └── WEB-INF/web.xml
+│
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── smartcampus/
+│       │           ├── servlet/
+│       │           │   ├── AdminServlet.java
+│       │           │   ├── ComplaintServlet.java
+│       │           │   ├── LoginServlet.java
+│       │           │   ├── LogoutServlet.java
+│       │           │   ├── MyComplaintsServlet.java
+│       │           │   ├── ProfileServlet.java
+│       │           │   ├── TrackComplaintServlet.java
+│       │           │   └── UpdateComplaintServlet.java
+│       │           │
+│       │           ├── dao/
+│       │           │   ├── ComplaintDAO.java
+│       │           │   └── UserDAO.java
+│       │           │
+│       │           ├── model/
+│       │           │   ├── Complaint.java
+│       │           │   └── User.java
+│       │           │
+│       │           ├── util/
+│       │           │   ├── DBConnection.java
+│       │           │   └── PriorityCalculator.java
+│       │           │
+│       │           └── filter/
+│       │               └── AuthenticationFilter.java
+│       │
+│       └── webapp/
+│           ├── index.html
+│           ├── login.html
+│           ├── student-dashboard.html
+│           ├── complaint.html
+│           ├── my-complaints.html
+│           ├── track-complaint.html
+│           ├── complaint-details.html
+│           ├── profile.html
+│           ├── admin-dashboard.html
+│           ├── admin-complaints.html
+│           ├── style.css
+│           ├── script.js
+│           ├── uploads/
+│           └── WEB-INF/
+│               └── web.xml
+│
+├── lib/
+│   └── mysql-connector-j.jar
+│
 ├── database.sql
-└── lib/            → put mysql-connector-j.jar here
-```
-
-## Setup
-1. **Database**
-   ```
-   mysql -u root -p < database.sql
-   ```
-   This creates the `smartcampus` DB, `users`/`complaints` tables, and a
-   default admin: `admin@smartcampus.edu` / `admin123`.
-
-2. **Edit DB credentials** in
-   `src/main/java/com/smartcampus/util/DBConnection.java` if your MySQL
-   user/password differ from `root`/`root`.
-
-3. **MySQL driver**: drop `mysql-connector-j.jar` into `lib/`, or add the
-   Maven dependency:
-   ```xml
-   <dependency>
-     <groupId>com.mysql</groupId>
-     <artifactId>mysql-connector-j</artifactId>
-     <version>8.4.0</version>
-   </dependency>
-   ```
-
-4. **Build & deploy** as a WAR to Tomcat 10+ (needs `jakarta.servlet`, not
-   `javax.servlet`). With Maven, package as `war` and drop the `.war` into
-   `webapps/`. WAR-ballooned or exploded deploy both work.
-
-5. Visit `http://localhost:8080/SmartCampus/` — register a student account,
-   or log in as admin with the seeded credentials above.
-
-## New in this version
-- **Photo upload on complaints** — `complaint.html` now sends `multipart/form-data`;
-  `ComplaintServlet` (annotated `@MultipartConfig`, 5&nbsp;MB limit) saves the file under
-  `webapp/uploads/` with a random name and stores the relative path in the new
-  `complaints.image_path` column. Thumbnails show up on My Complaints, Track,
-  Complaint Details, and the admin table.
-  - If your DB already existed before this column was added, run:
-    `ALTER TABLE complaints ADD COLUMN image_path VARCHAR(255) AFTER location;`
-- **Duplicate detection** — before inserting, `ComplaintDAO.findSimilarOpenComplaint()`
-  checks for an already-open (Pending/In Progress) complaint with the same category +
-  location (or, if no location was given, the exact same description). If one exists,
-  the student sees a message with a link to that complaint and a "Submit Anyway" button
-  (adds `force=true` to skip the check, for genuinely separate issues at the same spot).
-- **Role guard** — every protected page now has `<body data-role="student">` or
-  `data-role="admin">`; `enforceRole()` in `script.js` calls `/api/profile` on load and
-  bounces a student out of admin pages (and vice versa) automatically. The admin pages
-  also get a dark navbar so they're visually unmistakable from the student view.
-
-## How it works
-- All servlets live under `/api/*` and return JSON; `AuthenticationFilter`
-  guards every path under `/api/*` except `/api/login` and `/api/logout`,
-  and further restricts `/api/admin/*` to users with `role = admin`.
-- `PriorityCalculator` scans the category + description for keywords
-  (fire, shock, leak, security, injury → High; water/Wi-Fi/broken/hygiene →
-  Medium; everything else → Low) and stamps the complaint on submission.
-- Session (`HttpSession`) holds the logged-in `User`; no JWT/token layer.
-- Passwords are stored in plain text for simplicity — swap in BCrypt
-  (`UserDAO.register` / `authenticate`) before using this for anything real.
-
-## Known simplifications
-- No CSRF tokens on forms.
-- No pagination on complaint lists (fine for a class project's data volume).
-- No file/image upload on complaints.
+├── .gitignore
+└── README.md
