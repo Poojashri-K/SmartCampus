@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All Complaints — SmartCampus Admin</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="admin">
+  <header class="navbar"><a class="brand" href="admin-dashboard.html"><span class="brand-mark">SC</span><span>SmartCampus</span></a><nav class="app-nav" aria-label="Main navigation"><a href="admin-dashboard.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Dashboard</span></a><a href="admin-complaints.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7M10 17h4"/></svg></span><span>All complaints</span></a></nav><div class="nav-account"><a class="account-link" href="admin-dashboard.html" aria-label="Open account"><span class="avatar-small" aria-hidden="true">SC</span><span id="account-name">My account</span></a><button class="logout-link" type="button" id="logout-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg><span>Logout</span></button></div></header>
+
+  <main class="container">
+    <header class="page-header"><div><span class="eyebrow">CAMPUS OPERATIONS</span><h1>Complaint queue</h1><p>Review reports from students and keep each request moving.</p></div></header>
+    <section class="card">
+      <div class="list-heading"><div><h2>All complaints</h2><p>Update status from the queue as requests progress.</p></div></div>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Student</th><th>Category</th><th>Photo</th><th>Priority</th><th>Status</th><th>Update</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="admin-complaints-body">
+          <tr><td colspan="8" class="empty-state">Loading...</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

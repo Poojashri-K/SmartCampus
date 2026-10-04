@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in | SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+  <main class="auth-layout">
+    <aside class="auth-aside">
+      <a class="auth-brand" href="index.html"><span class="brand-mark">SC</span> SmartCampus</a>
+      <div class="auth-copy"><span class="eyebrow eyebrow-light">CAMPUS SUPPORT, CONNECTED</span>
+      <h1>A better campus starts with being heard.</h1>
+      <p>One place to raise concerns, follow progress, and help your university move forward.</p>
+      <div class="auth-features"><span>Report issues</span><span>Track progress</span><span>Improve your campus</span></div></div>
+      <div class="auth-orbit orbit-one"></div><div class="auth-orbit orbit-two"></div><div class="auth-glow"></div>
+      <div class="auth-art" aria-hidden="true"><div class="art-window"><div class="art-top"></div><div class="art-columns"><i></i><i></i><i></i><i></i></div><div class="art-path"></div></div><span class="art-dot"></span></div>
+    </aside>
+    <section class="auth-main">
+      <div class="auth-form-area">
+        <span class="eyebrow" id="auth-eyebrow">STUDENT PORTAL</span>
+        <h2 id="auth-heading">Welcome back</h2>
+        <p class="auth-subtitle" id="auth-subtitle">Sign in to continue to your campus portal.</p>
+        <div id="auth-msg" class="msg" style="display:none;"></div>
+        <form id="login-form" class="auth-form">
+          <div class="form-group"><label for="login-email">Email address</label><input id="login-email" type="email" name="email" autocomplete="email" placeholder="name@university.edu" required></div>
+          <div class="form-group"><label for="login-password">Password</label><div class="password-wrap"><input id="login-password" type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required><button class="password-toggle" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div></div>
+          <button class="auth-submit" type="submit">Sign in <span aria-hidden="true">&#8594;</span></button>
+        </form>
+        <p class="auth-switch" id="login-switch">Don't have an account? <a href="#register" id="show-register">Register</a></p>
+        <form id="register-form" class="auth-form" style="display:none;">
+          <div class="form-group"><label for="register-name">Full name</label><input id="register-name" type="text" name="name" autocomplete="name" placeholder="Your full name" required></div>
+          <div class="form-group"><label for="register-email">Email address</label><input id="register-email" type="email" name="email" autocomplete="email" placeholder="name@university.edu" required></div>
+          <div class="form-group"><label for="register-password">Password</label><div class="password-wrap"><input id="register-password" type="password" name="password" autocomplete="new-password" placeholder="Create a password" required><button class="password-toggle" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div></div>
+          <div class="form-row"><div class="form-group"><label for="register-department">Department</label><input id="register-department" type="text" name="department" placeholder="e.g. IT"></div><div class="form-group"><label for="register-phone">Phone</label><input id="register-phone" type="text" name="phone" autocomplete="tel" placeholder="Optional"></div></div>
+          <button class="auth-submit" type="submit">Create account <span aria-hidden="true">&#8594;</span></button>
+        </form>
+        <p class="auth-switch" id="register-switch" style="display:none;">Already have an account? <a href="#login" id="show-login">Sign in</a></p>
+        <p class="auth-footnote">Your campus community, moving forward.</p>
+      </div>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>

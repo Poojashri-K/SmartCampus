@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Complaint — SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="student">
+  <header class="navbar"><a class="brand" href="student-dashboard.html"><span class="brand-mark">SC</span><span>SmartCampus</span></a><nav class="app-nav" aria-label="Main navigation"><a href="student-dashboard.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Dashboard</span></a><a href="complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span>New complaint</span></a><a href="my-complaints.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7M10 17h4"/></svg></span><span>My complaints</span></a><a href="track-complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10h5M8 13h3"/></svg></span><span>Track</span></a><a href="profile.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span>Profile</span></a></nav><div class="nav-account"><a class="account-link" href="profile.html" aria-label="Open account"><span class="avatar-small" aria-hidden="true">SC</span><span id="account-name">My account</span></a><button class="logout-link" type="button" id="logout-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg><span>Logout</span></button></div></header>
+
+  <main class="container">
+    <header class="page-header"><div><span class="eyebrow">FOLLOW YOUR REQUEST</span><h1>Track a complaint</h1><p>Enter your complaint number to see its latest status and timeline.</p></div></header>
+    <div class="track-layout" id="track-layout"><section class="card track-search">
+      <span class="heading-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10h5M8 13h3"/></svg></span><h2>Find a complaint</h2>
+      <p>Use the ID shown when your complaint was submitted.</p>
+      <form id="track-form">
+        <div class="form-group">
+          <label for="track-id">Complaint ID</label>
+          <input id="track-id" type="number" name="id" required placeholder="e.g. 12">
+        </div>
+        <button type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>Track complaint</button>
+      </form>
+      <div class="track-search-note"><span class="eyebrow">NEED YOUR ID?</span><p>Find it in the confirmation message or in My Complaints.</p><a class="text-link" href="my-complaints.html">Go to My Complaints <span aria-hidden="true">&#8594;</span></a></div>
+    </section><div id="track-result" class="track-result"><section class="card tracking-info"><span class="eyebrow">TRACK YOUR REQUEST</span><h2>Track your campus request</h2><p>Enter your complaint ID to see its latest status and progress.</p><div class="track-info-timeline" aria-label="Typical complaint progress"><span class="mini-step complete">Submitted</span><i></i><span class="mini-step">Reviewed</span><i></i><span class="mini-step">Assigned</span><i></i><span class="mini-step">In progress</span><i></i><span class="mini-step">Resolved</span></div><div class="track-info-grid"><div><span class="track-info-icon">01</span><span>Current status</span></div><div><span class="track-info-icon">02</span><span>Priority level</span></div><div><span class="track-info-icon">03</span><span>Submission date</span></div><div><span class="track-info-icon">04</span><span>Progress timeline</span></div><div><span class="track-info-icon">05</span><span>Latest response, when available</span></div></div><div class="tracking-note"><span class="heading-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span><p>Updates appear as your request moves through the campus support process.</p></div></section></div></div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="student">
+  <header class="navbar"><a class="brand" href="student-dashboard.html"><span class="brand-mark">SC</span><span>SmartCampus</span></a><nav class="app-nav" aria-label="Main navigation"><a href="student-dashboard.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Dashboard</span></a><a href="complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span>New complaint</span></a><a href="my-complaints.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7M10 17h4"/></svg></span><span>My complaints</span></a><a href="track-complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10h5M8 13h3"/></svg></span><span>Track</span></a><a href="profile.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span>Profile</span></a></nav><div class="nav-account"><a class="account-link" href="profile.html" aria-label="Open account"><span class="avatar-small" aria-hidden="true">SC</span><span id="account-name">My account</span></a><button class="logout-link" type="button" id="logout-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg><span>Logout</span></button></div></header>
+
+  <main class="container dashboard-page">
+    <section class="welcome"><div><span class="eyebrow">YOUR CAMPUS, IN FOCUS</span><h1>Good morning, <span id="student-name">there</span></h1><p>Here's what's happening with your campus requests.</p></div><div class="welcome-mark" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42"/><path d="M26 57 43 72 76 35"/></svg></div></section>
+    <div class="grid summary-grid student-stats" id="student-stats"><div class="stat-box"><div class="skeleton"></div><div class="label">Loading your complaint overview</div></div></div>
+    <section class="card overview-card student-overview" id="dashboard-overview"><div class="overview-copy"><span class="eyebrow">HOW IT WORKS</span><h2>From report to resolution</h2><p>Each request moves through a clear support process.</p></div><div class="overview-steps"><div class="overview-step"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="step-number">01</span><strong>Submit</strong><small>Share the details</small></div><span class="step-connector" aria-hidden="true">&#8594;</span><div class="overview-step"><span class="step-icon step-icon-purple" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7"/></svg></span><span class="step-number">02</span><strong>Review</strong><small>Team evaluates</small></div><span class="step-connector" aria-hidden="true">&#8594;</span><div class="overview-step"><span class="step-icon step-icon-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></svg></span><span class="step-number">03</span><strong>Resolve</strong><small>Track the update</small></div></div><a class="btn btn-primary overview-cta" href="complaint.html">Report a campus issue <span aria-hidden="true">&#8594;</span></a></section>
+    <section class="card" id="recent-complaints"><div class="eyebrow">Recent activity</div><h2>Recent complaints</h2><div class="empty-state">Loading your latest complaints...</div></section>
+    <div class="section-heading"><div><span class="eyebrow">GET THINGS DONE</span><h2>Quick actions</h2></div></div>
+    <div class="grid quick-actions-grid">
+      <a class="card quick-card" href="complaint.html"><span class="quick-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+        <h3>File a Complaint</h3>
+        <p>Report a hostel, academic, or infrastructure issue.</p>
+        <span class="btn btn-primary">New Complaint</span>
+      </a>
+      <a class="card quick-card" href="my-complaints.html"><span class="quick-icon quick-purple" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7"/></svg></span>
+        <h3>My Complaints</h3>
+        <p>View the status of everything you've filed.</p>
+        <span class="btn btn-primary">View All</span>
+      </a>
+      <a class="card quick-card" href="track-complaint.html"><span class="quick-icon quick-cyan" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10h5"/></svg></span>
+        <h3>Track a Complaint</h3>
+        <p>Look up any complaint by its ID.</p>
+        <span class="btn btn-primary">Track</span>
+      </a>
+      <a class="card quick-card" href="profile.html"><span class="quick-icon quick-purple" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><h3>Your profile</h3><p>Keep your contact information up to date.</p><span class="btn btn-primary">Manage Profile <span aria-hidden="true">&#8594;</span></span></a>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

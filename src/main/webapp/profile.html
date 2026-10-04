@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile — SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="student">
+  <header class="navbar"><a class="brand" href="student-dashboard.html"><span class="brand-mark">SC</span><span>SmartCampus</span></a><nav class="app-nav" aria-label="Main navigation"><a href="student-dashboard.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Dashboard</span></a><a href="complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span>New complaint</span></a><a href="my-complaints.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7M10 17h4"/></svg></span><span>My complaints</span></a><a href="track-complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10h5M8 13h3"/></svg></span><span>Track</span></a><a href="profile.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span>Profile</span></a></nav><div class="nav-account"><a class="account-link" href="profile.html" aria-label="Open account"><span class="avatar-small" aria-hidden="true">SC</span><span id="account-name">My account</span></a><button class="logout-link" type="button" id="logout-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg><span>Logout</span></button></div></header>
+
+  <main class="container">
+    <header class="page-header"><div><span class="eyebrow">ACCOUNT SETTINGS</span><h1>Your profile</h1><p>Manage the contact details linked to your campus account.</p></div></header>
+    <div class="profile-layout"><aside class="card profile-summary"><div class="profile-avatar" id="profile-avatar" aria-hidden="true">SC</div><span class="eyebrow">ACCOUNT OVERVIEW</span><h2 id="profile-name-display">Student profile</h2><p id="profile-email-display">Your campus account</p><div class="profile-details"><div><span>Department</span><strong id="profile-department-display">Not provided</strong></div><div><span>Account type</span><strong id="profile-role-display">Student</strong></div><div><span>Profile status</span><strong><i class="profile-status-dot"></i>Active</strong></div></div></aside><section class="card profile-form-card">
+      <div class="card-heading"><span class="heading-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><div><h2>Personal information</h2><p>Update your contact information below.</p></div></div>
+      <div id="profile-msg" class="msg" style="display:none;"></div>
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="profile-name">Name</label>
+          <input id="profile-name" type="text" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="profile-email">Email</label>
+          <input id="profile-email" type="email" name="email" disabled>
+        </div>
+        <div class="form-group">
+          <label for="profile-department">Department</label>
+          <input id="profile-department" type="text" name="department">
+        </div>
+        <div class="form-group">
+          <label for="profile-phone">Phone</label>
+          <input id="profile-phone" type="text" name="phone">
+        </div>
+        <button type="submit">Save Changes</button>
+      </form>
+    </section></div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

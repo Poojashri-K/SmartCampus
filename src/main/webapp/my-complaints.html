@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Complaints — SmartCampus</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-role="student">
+  <header class="navbar"><a class="brand" href="student-dashboard.html"><span class="brand-mark">SC</span><span>SmartCampus</span></a><nav class="app-nav" aria-label="Main navigation"><a href="student-dashboard.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Dashboard</span></a><a href="complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span>New complaint</span></a><a href="my-complaints.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h13v16H7zM4 7v14h13M10 9h7M10 13h7M10 17h4"/></svg></span><span>My complaints</span></a><a href="track-complaint.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10h5M8 13h3"/></svg></span><span>Track</span></a><a href="profile.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><span>Profile</span></a></nav><div class="nav-account"><a class="account-link" href="profile.html" aria-label="Open account"><span class="avatar-small" aria-hidden="true">SC</span><span id="account-name">My account</span></a><button class="logout-link" type="button" id="logout-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg><span>Logout</span></button></div></header>
+
+  <main class="container">
+    <header class="page-header"><div><span class="eyebrow">YOUR CAMPUS REQUESTS</span><h1>My complaints</h1><p>Review updates and follow the progress of the issues you've reported.</p></div><a class="btn btn-primary" href="complaint.html"><span aria-hidden="true">+</span> New complaint</a></header>
+    <div class="grid summary-grid" id="my-complaint-stats"></div>
+    <section class="card">
+      <div class="list-heading"><div><h2>All complaints</h2><p>Your submitted campus requests, newest first.</p></div><div class="filters"><label class="sr-only" for="complaint-search">Search complaints</label><input type="search" id="complaint-search" placeholder="Search complaints"><label class="sr-only" for="complaint-filter">Filter by status</label><select id="complaint-filter"><option value="">All statuses</option><option>Pending</option><option>In Progress</option><option>Resolved</option><option>Rejected</option></select></div></div>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Category</th><th>Location</th><th>Submitted</th><th>Photo</th><th>Priority</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="my-complaints-body">
+          <tr><td colspan="8" class="empty-state"><span class="skeleton skeleton-line"></span> Loading complaints...</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
